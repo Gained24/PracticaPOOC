@@ -1,0 +1,15 @@
+C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\AplicacionSeguros.csproj.AssemblyReference.cache
+C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\AplicacionSeguros.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\AplicacionSeguros.AssemblyInfoInputs.cache
+C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\AplicacionSeguros.AssemblyInfo.cs
+C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\AplicacionSeguros.csproj.CoreCompileInputs.cache
+C:\Users\adrif\source\repos\AplicacionSeguros\bin\Debug\net6.0\AplicacionSeguros.exe
+C:\Users\adrif\source\repos\AplicacionSeguros\bin\Debug\net6.0\AplicacionSeguros.deps.json
+C:\Users\adrif\source\repos\AplicacionSeguros\bin\Debug\net6.0\AplicacionSeguros.runtimeconfig.json
+C:\Users\adrif\source\repos\AplicacionSeguros\bin\Debug\net6.0\AplicacionSeguros.dll
+C:\Users\adrif\source\repos\AplicacionSeguros\bin\Debug\net6.0\AplicacionSeguros.pdb
+C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\AplicacionSeguros.dll
+C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\refint\AplicacionSeguros.dll
+C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\AplicacionSeguros.pdb
+C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\AplicacionSeguros.genruntimeconfig.cache
+C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\ref\AplicacionSeguros.dll
