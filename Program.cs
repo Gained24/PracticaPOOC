@@ -1,8 +1,10 @@
 ﻿using AplicacionSeguros;
+//ESTRUCTURAS DE CONTROL
 Dictionary<string, Persona> diccionario_personas = new Dictionary<string, Persona>();
 Dictionary<string, Empresa> diccionario_empresas = new Dictionary<string, Empresa>();
 Dictionary<int, Poliza> diccionario_polizas = new Dictionary<int, Poliza>();
-
+Dictionary<int, DatosRecibos> diccionario_recibos = new Dictionary<int, DatosRecibos>();
+//FUNCIÓN PARA CREAR UNA PERSONA Y LA AÑADE AL DICCIONARIO
 Persona CrearPersona()
 {
     Console.Write("Introduzca dni: ");
@@ -27,7 +29,7 @@ Persona CrearPersona()
         return persona;
     }
 }
-
+//FUNCÓN PARA CREAR UNA EMPRESA Y LA AÑADE AL DICCIONARIO
 Empresa CrearEmpresa()
 {
     Console.WriteLine("\nCREACIÓN DE EMPRESA");
@@ -67,7 +69,7 @@ Empresa CrearEmpresa()
         }
     }
 }
-
+//FUNCIÓN QUE REALIZA EL FLUJO DE CREAR UNA POLIZA Y LA AÑADE AL DICCIONARIO
 void CrearPoliza()
 {
     Console.Write("Introduzca número de poliza: ");
@@ -180,9 +182,69 @@ void CrearPoliza()
         
     }
 }
+//CREA O MODIFICA UN RECIBO, SI LO CREA LO AÑADE AL DICCIONARIO SI LO MODIFICA CAMBIA SU ESTADO Y LE AÑADE UNA FECHA DE LIQUIDACIÓN
+void CrearModificarRecibo()
+{
+    Console.WriteLine("\nRECIBOS\n1. CrearReacibo.\n2. ModificarEstadoRecibo.\n3. Salir.\n");
+    Console.Write("-> ");
+    int opt = Convert.ToInt32(Console.ReadLine());
 
+    switch (opt)
+    {
+        case 1:
+            Console.Write("Introduzca el número del recibo: ");
+            int numero = Convert.ToInt32(Console.ReadLine());
+            if (!diccionario_recibos.ContainsKey(numero))
+            {
+                Console.Write("Introduzca el número de la poliza: ");
+                int numero_poliza = Convert.ToInt32(Console.ReadLine());
+                if (diccionario_polizas.ContainsKey(numero_poliza))
+                {
+                    Console.Write("Introduzca fecha de la emisión del recibo: ");
+                    string fecha_emision = Console.ReadLine();
+                    Console.Write("Importe del seguro: ");
+                    int importe = Convert.ToInt32(Console.ReadLine());
+                    Console.Write("Comisión: ");
+                    int comision = Convert.ToInt32(Console.ReadLine());
+                    DatosRecibos recibos = new DatosRecibos(numero_poliza, numero, fecha_emision, importe, comision);
+                    diccionario_recibos.Add(numero, recibos);
+                }
+                else
+                {
+                    Console.WriteLine("La poliza no existe.\n");
+                }  
+            }
+            else
+            {
+                Console.WriteLine("El recibo ya existe.\n");
+            }
+            break;
+        case 2:
+            Console.Write("Introduzca el número del recibo: ");
+            int numero_buscar = Convert.ToInt32(Console.ReadLine());
+            if (!diccionario_recibos.ContainsKey(numero_buscar))
+            {
+                Console.WriteLine("El recibo no existe.\n");
+            }
+            else
+            {
+                diccionario_recibos.TryGetValue(numero_buscar, out DatosRecibos recibos);
+                recibos.EsDevuelto();
+                Console.Write("Introduzca fecha de liquidación del recibo: ");
+                string fecha_liquidacion = Console.ReadLine();
+                recibos.AgregarFechaLiquidacion(fecha_liquidacion);
+            }
+            break;
+        case 3:
+            break;
+        default:
+            Console.WriteLine("\n\nLa opción no es válida. Volviendo...\n\n");
+            break;
+    }
+}
+//PRINCIPAL
 bool salir = false;
-while (true)
+while (true)//MENÚ
 {
     Console.WriteLine("\nGESTORSEGUROS\n1. CrearPoliza.\n2. Recibos.\n3. Siniestros.\n4. Liquidaciones.\n5. ListadoRecibos.\n6. Salir.\n");
     Console.Write("-> ");
@@ -194,6 +256,7 @@ while (true)
             CrearPoliza();
             break;
         case 2:
+            CrearModificarRecibo();
             break;
         case 3:
             break;
