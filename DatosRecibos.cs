@@ -20,9 +20,13 @@
         int comision { get; set; }
         string fecha_liquidacion { get; set; }
 
-        public void EsDevuelto()
+        public void CambiarEstadoADevuelto()
         {
             estado_recibo = "devuelto";
+        }
+        public void CambiarEstadoACobrado()
+        {
+            estado_recibo = "cobrado";
         }
 
         public void AgregarFechaLiquidacion(string p_fecha_liquidacion)

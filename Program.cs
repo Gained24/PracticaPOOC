@@ -1,10 +1,16 @@
 ﻿using AplicacionSeguros;
+
 //ESTRUCTURAS DE CONTROL
 Dictionary<string, Persona> diccionario_personas = new Dictionary<string, Persona>();
 Dictionary<string, Empresa> diccionario_empresas = new Dictionary<string, Empresa>();
 Dictionary<int, Poliza> diccionario_polizas = new Dictionary<int, Poliza>();
 Dictionary<int, DatosRecibos> diccionario_recibos = new Dictionary<int, DatosRecibos>();
 Dictionary<int, DatosSiniestro> diccionario_siniestros = new Dictionary<int, DatosSiniestro>();
+
+//VARIABLES GLOBALES
+int year_siniestro = 0;
+int numero_siniestro = 0;
+
 //FUNCIÓN PARA CREAR UNA PERSONA Y LA AÑADE AL DICCIONARIO
 Persona CrearPersona()
 {
@@ -100,17 +106,8 @@ void CrearPoliza()
                     Empresa empresa = CrearEmpresa();
                     Console.Write("Introduzca fecha de efecto de la poliza: ");
                     string fecha_efecto = Console.ReadLine();
-                    Console.Write("Introduzca estado de la poliza(vigor, ptellegar, baja): ");
-                    string estado = Console.ReadLine().ToLower();
-                    if (estado == "vigor" || estado == "ptllegar" || estado == "baja")
-                    {
-                        Poliza poliza = new Poliza(numero, empresa, fecha_efecto, estado);
-                        diccionario_polizas.Add(numero, poliza);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Error al introducir el estado.");
-                    }
+                    Poliza poliza = new Poliza(numero, empresa, fecha_efecto);
+                    diccionario_polizas.Add(numero, poliza);
                 }
             }
             else
@@ -118,17 +115,8 @@ void CrearPoliza()
                 diccionario_empresas.TryGetValue(cif, out Empresa empresa);
                 Console.Write("Introduzca fecha de efecto de la poliza: ");
                 string fecha_efecto = Console.ReadLine();
-                Console.Write("Introduzca estado de la poliza(vigor, ptellegar, baja): ");
-                string estado = Console.ReadLine().ToLower();
-                if (estado == "vigor" || estado == "ptllegar" || estado == "baja")
-                {
-                    Poliza poliza = new Poliza(numero, empresa, fecha_efecto, estado);
-                    diccionario_polizas.Add(numero, poliza);
-                }
-                else
-                {
-                    Console.WriteLine("Error al introducir el estado.");
-                }
+                Poliza poliza = new Poliza(numero, empresa, fecha_efecto);
+                diccionario_polizas.Add(numero, poliza);
             }
             
         }
@@ -149,17 +137,8 @@ void CrearPoliza()
                     Persona persona = CrearPersona();
                     Console.Write("Introduzca fecha de efecto de la poliza: ");
                     string fecha_efecto = Console.ReadLine();
-                    Console.Write("Introduzca estado de la poliza(vigor, ptellegar, baja): ");
-                    string estado = Console.ReadLine().ToLower();
-                    if (estado == "vigor" || estado == "ptllegar" || estado == "baja")
-                    {
-                        Poliza poliza = new Poliza(numero, persona, fecha_efecto, estado);
-                        diccionario_polizas.Add(numero, poliza);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Error al introducir el estado.");
-                    }
+                    Poliza poliza = new Poliza(numero, persona, fecha_efecto);
+                    diccionario_polizas.Add(numero, poliza);
                 }
             }
             else
@@ -167,17 +146,9 @@ void CrearPoliza()
                 diccionario_personas.TryGetValue(dni, out Persona persona);
                 Console.Write("Introduzca fecha de efecto de la poliza: ");
                 string fecha_efecto = Console.ReadLine();
-                Console.Write("Introduzca estado de la poliza(vigor, ptellegar, baja): ");
-                string estado = Console.ReadLine().ToLower();
-                if (estado == "vigor" || estado == "ptllegar" || estado == "baja")
-                {
-                    Poliza poliza = new Poliza(numero, persona, fecha_efecto, estado);
-                    diccionario_polizas.Add(numero, poliza);
-                }
-                else
-                {
-                    Console.WriteLine("Error al introducir el estado.");
-                }
+                Poliza poliza = new Poliza(numero, persona, fecha_efecto);
+                diccionario_polizas.Add(numero, poliza);
+                
             }
         }
         
@@ -207,8 +178,16 @@ void CrearModificarRecibo()
                     int importe = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Comisión: ");
                     int comision = Convert.ToInt32(Console.ReadLine());
-                    DatosRecibos recibos = new DatosRecibos(numero_poliza, numero, fecha_emision, importe, comision);
-                    diccionario_recibos.Add(numero, recibos);
+                    if (comision < importe)
+                    {
+                        DatosRecibos recibos = new DatosRecibos(numero_poliza, numero, fecha_emision, importe, comision);
+                        diccionario_recibos.Add(numero, recibos);
+                    }
+                    else
+                    {
+                        Console.WriteLine("La comisión no puede ser igual o mayor al importe.\n");
+                    }
+                    
                 }
                 else
                 {
@@ -230,10 +209,7 @@ void CrearModificarRecibo()
             else
             {
                 diccionario_recibos.TryGetValue(numero_buscar, out DatosRecibos recibos);
-                recibos.EsDevuelto();
-                Console.Write("Introduzca fecha de liquidación del recibo: ");
-                string fecha_liquidacion = Console.ReadLine();
-                recibos.AgregarFechaLiquidacion(fecha_liquidacion);
+                recibos.CambiarEstadoADevuelto();
             }
             break;
         case 3:
@@ -243,49 +219,84 @@ void CrearModificarRecibo()
             break;
     }
 }
-//CREA UN SINIESTRO Y PERMITE AÑADIR FECHA DE PAGO Y FRCHA DE MODIFICACIÓN.
+//CREA UN SINIESTRO Y PERMITE AÑADIR FECHA DE PAGO Y FECHA DE MODIFICACIÓN.
 void CrearSiniestro()
 {
-    Console.WriteLine("\nSINIESTROS\n1. CrearSiniestros.\n2. AñadirFechaPago.\n3. AñadirFechaLiuidación.\n4. Salir.\n");
+    Console.WriteLine("\nSINIESTROS\n1. CrearSiniestros.\n2. AñadirFechaPago.\n3. Salir.\n");
     Console.Write("-> ");
     int opt = Convert.ToInt32(Console.ReadLine());
 
     switch (opt)
     {
         case 1:
-            Console.Write("Introduzca el número del siniestro: ");
+            bool seguir = true;
+            Console.Write("Introduzca año para registro del número de siniestro: ");
             int numero = Convert.ToInt32(Console.ReadLine());
-            if (!diccionario_siniestros.ContainsKey(numero))
+            if (numero == year_siniestro)
             {
-                Console.Write("Introduzca el número de la poliza: ");
-                int numero_poliza = Convert.ToInt32(Console.ReadLine());
-                if (diccionario_polizas.ContainsKey(numero_poliza))
+                numero_siniestro++;
+            }
+            else if (numero > year_siniestro)
+            {
+                year_siniestro = numero;
+                numero_siniestro = 1;
+            }
+            else if (numero < year_siniestro)
+            {
+                Console.WriteLine("\n\nEl dato está anticuado. Volviendo...\n\n");
+                seguir = false;
+            }
+            if (seguir)
+            {
+                if (!diccionario_siniestros.ContainsKey(numero))
                 {
-                    Console.Write("Introduzca cia: ");
-                    string cia = Console.ReadLine();
-                    Console.Write("Introduzca el número de la poliza contraria: ");
-                    int poliza_contraria = Convert.ToInt32(Console.ReadLine());
-                    if (diccionario_polizas.ContainsKey(numero_poliza) && poliza_contraria != numero_poliza)
+                    Console.Write("Introduzca el número de la poliza: ");
+                    int numero_poliza = Convert.ToInt32(Console.ReadLine());
+                    if (diccionario_polizas.ContainsKey(numero_poliza))
                     {
-                        Console.Write("Introduzca la matrícula contraria: ");
-                        string matricula_contraria = Console.ReadLine();
-                        Console.Write("Introduzca el importe: ");
-                        int importe = Convert.ToInt32(Console.ReadLine());
-                        DatosSiniestro siniestro = new DatosSiniestro(numero, numero_poliza, cia, poliza_contraria, matricula_contraria, importe);
-                        diccionario_siniestros.Add(numero, siniestro);
-                    }
-                    else if (diccionario_polizas.ContainsKey(numero_poliza) && poliza_contraria == numero_poliza)
-                    {
-                        Console.WriteLine("La poliza contraria no puede ser igual a la propia.\n");
+                        Console.Write("Introduzca cia: ");
+                        string cia = Console.ReadLine();
+                        Console.Write("¿La poliza contraria también es de la misma empresa?(S/N): ");
+                        string empresa_propia = Console.ReadLine().ToUpper();
+                        if (empresa_propia == "S")
+                        {
+                            Console.Write("Introduzca el número de la poliza contraria(ya registrado): ");
+                            int poliza_contraria = Convert.ToInt32(Console.ReadLine());
+                            if (diccionario_polizas.ContainsKey(numero_poliza) && poliza_contraria != numero_poliza)
+                            {
+                                Console.Write("Introduzca la matrícula contraria: ");
+                                string matricula_contraria = Console.ReadLine();
+                                DatosSiniestro siniestro = new DatosSiniestro(numero + "-" + numero_siniestro, numero_poliza, cia, poliza_contraria, true, matricula_contraria);
+                                diccionario_siniestros.Add(numero, siniestro);
+                            }
+                            else if (diccionario_polizas.ContainsKey(numero_poliza) && poliza_contraria == numero_poliza)
+                            {
+                                Console.WriteLine("La poliza contraria no puede ser igual a la propia.\n");
+                            }
+                            else
+                            {
+                                Console.WriteLine("La poliza no existe.\n");
+                            }
+                        }
+                        else if (empresa_propia == "N")
+                        {
+                            Console.Write("Introduzca el número de la poliza contraria: ");
+                            int poliza_contraria = Convert.ToInt32(Console.ReadLine());
+                            Console.Write("Introduzca la matrícula contraria: ");
+                            string matricula_contraria = Console.ReadLine();
+                            DatosSiniestro siniestro = new DatosSiniestro(numero + "-" + numero_siniestro, numero_poliza, cia, poliza_contraria, false, matricula_contraria);
+                            diccionario_siniestros.Add(numero, siniestro);
+                        }
+                        else
+                        {
+                            Console.WriteLine("\n\nLa opción no es válida. Volviendo...\n\n");
+                        }
+
                     }
                     else
                     {
                         Console.WriteLine("La poliza no existe.\n");
                     }
-                }
-                else
-                {
-                    Console.WriteLine("La poliza no existe.\n");
                 }
             }
             else
@@ -309,21 +320,6 @@ void CrearSiniestro()
             }
             break;
         case 3:
-            Console.Write("Introduzca el número del siniestro: ");
-            int numero_buscar2 = Convert.ToInt32(Console.ReadLine());
-            if (!diccionario_siniestros.ContainsKey(numero_buscar2))
-            {
-                Console.WriteLine("El siniestro no existe.\n");
-            }
-            else
-            {
-                diccionario_siniestros.TryGetValue(numero_buscar2, out DatosSiniestro siniestro);
-                Console.Write("Introduzca fecha de liquidación del siniestro: ");
-                string fecha_liquidacion = Console.ReadLine();
-                siniestro.AgregarFechaLiquidacion(fecha_liquidacion);
-            }
-            break;
-        case 4:
             break;
         default:
             Console.WriteLine("\n\nLa opción no es válida. Volviendo...\n\n");
