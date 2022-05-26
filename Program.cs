@@ -1,4 +1,13 @@
-﻿using AplicacionSeguros;
+﻿using System.Xml.Xsl.Runtime;
+using System.Xml.Serialization;
+using System.Transactions;
+using System.ComponentModel;
+using System.Xml.XPath;
+using System.Net.Http.Headers;
+using System.Data;
+using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using AplicacionSeguros;
 
 //ESTRUCTURAS DE CONTROL
 Dictionary<string, Persona> diccionario_personas = new Dictionary<string, Persona>();
@@ -118,7 +127,7 @@ void CrearPoliza()
                 Poliza poliza = new Poliza(numero, empresa, fecha_efecto);
                 diccionario_polizas.Add(numero, poliza);
             }
-            
+
         }
         if (tipo == "P")
         {
@@ -326,6 +335,88 @@ void CrearSiniestro()
             break;
     }
 }
+
+
+void ImprimirLiquidar()
+{
+    //OBTENEMOS TODOS LOS RECIBOS COBRADOS y DEVUELTOS PERO SIN FECHA DE LIQUIDACIÓN.
+    List<DatosRecibos> Lista_Recibidos = new List<DatosRecibos>();
+    List<DatosRecibos> Lista_Devueltos = new List<DatosRecibos>();
+    int suma_importe = 0;
+    int suma_comision = 0;
+    foreach (DatosRecibos item in diccionario_recibos)
+    {
+        if (item.estado_recibo == "cobrado" && item.fecha_liquidacion == "")
+            {
+            Lista_Recibidos.Add(item);
+            suma_importe += item.importe_seguro;
+            suma_comision += item.comision;
+
+            }
+        else if (item.estado_recibo == "devueltos" && item.fecha_liquidacion == "")
+            Lista_Devueltos.Add(item);
+    }
+
+    //OBTENEMOS TODOS LOS SINIESTROS PAGADOS PERO SIN FECHA DE LIQUIDACIÓN.
+    List<DatosSiniestro> Lista_Siniestros = new List<DatosSiniestro>();
+    int suma_siniestros = 0;
+    foreach (DatosSiniestro item in diccionario_siniestros)
+    {
+        if (item.fecha_pago != "" && item.fecha_pago == "")
+            Lista_Siniestros.Add(item);
+            suma_siniestros += item.importe_siniestro
+    }
+
+    //IMPRIMIR
+    //Cobrados.
+    Console.WriteLine("---------------------------------\nRECIBOS COBRADOS:")
+    foreach (DatosRecibos item in Lista_Recibidos)
+    {
+        Console.WriteLine($"Nro de poliza:{item.nro_poliza} Nro de recibo:{item.nro_recibo} Importe:{item.importe_seguro} Comision:{item.comision}");
+    }
+    Console.WriteLine($"TOTAL IMPORTE: {suma_importe}\nTOTAL COMISION:{suma_comision}")
+    //devueltos
+    Console.WriteLine("---------------------------------\nRECIBOS DEVUELTOS:")
+    foreach (DatosRecibos item in Lista_Devueltos)
+    {
+        Console.WriteLine($"Nro de poliza:{item.nro_poliza} Nro de recibo:{item.nro_recibo} Importe:{item.importe_seguro} Comision:{item.comision}");
+    }
+    //siniestros
+    Console.WriteLine("---------------------------------\nSINIESTROS:")
+    foreach ( DatosSiniestro item in Lista_Siniestros)
+    {
+        Console.WriteLine($"Nro de poliza:{item.nro_poliza} Nro de siniestro:{item.nro_siniestro} Importe Abonado:{item.importe_siniestro}");
+    }
+    Console.WriteLine($"TOTAL SINIESTRO: {suma_siniestros}");
+
+    Console.Write("¿Desea Liquidar todo? SI/NO: ");
+    if (Console.ReadLine() == "SI")
+    {
+        Console.Write("Introduce la fecha de liquidacion: ");
+        string fecha = ConsoleReadLine();
+        foreach (DatosRecibos item in Lista_Recibidos)
+        {
+            item.fecha_liquidacion = fecha;
+        }
+        foreach (DatosRecibos item in Lista_Devueltos)
+        {
+            item.fecha_liquidacion = fecha;
+        }
+        foreach (DatosSiniestro item in Lista_Siniestros)
+        {
+            item.fecha_liquidacion = fecha;
+        }
+
+        Console.WriteLine($"TOTAL LIQUIDACIÓN: {suma_importe - suma_comision - suma_siniestros}");
+    }
+    else {
+        Lista_Siniestros.Clear();
+        Lista_Devueltos.Clear();
+        Lista_Recibidos.Clear();
+    }
+
+}
+
 //PRINCIPAL
 bool salir = false;
 while (true)//MENÚ
@@ -346,6 +437,7 @@ while (true)//MENÚ
             CrearSiniestro();
             break;
         case 4:
+            ImprimirLiquidar()
             break;
         case 5:
             break;
