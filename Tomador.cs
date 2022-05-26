@@ -11,5 +11,7 @@
         protected string nombre { get; set; }
         protected string id { get; set; }
         protected string telefono { get; set; }
+
+        public string ObtenerNombre() => nombre;
     }
 }

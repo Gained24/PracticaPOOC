@@ -46,5 +46,7 @@
 
         public string ObtenerFechaLiquidacion() => fecha_liquidacion;
 
+        public string ObtenerFechaEmision() => fecha_emision;
+
     }
 }

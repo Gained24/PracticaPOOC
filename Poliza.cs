@@ -25,5 +25,11 @@
 
         public void CambiarEstadoAVigor() { estado_poliza = "vigor"; }
         public void CambiarEstadoABaja() { estado_poliza = "baja"; }
+
+        public Tomador ObtenerTomador() => datos_tomador;
+
+        public string ObtenerEstadoPoliza() => estado_poliza;
+
+        public string ObtenerFechaEfecto() => fecha_efecto;
     }
 }

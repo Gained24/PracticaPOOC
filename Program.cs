@@ -351,48 +351,48 @@ void ImprimirLiquidar()
     List<DatosRecibos> Lista_Devueltos = new List<DatosRecibos>();
     int suma_importe = 0;
     int suma_comision = 0;
-    foreach (DatosRecibos item in diccionario_recibos.Values)
+    foreach (DatosRecibos Recibo in diccionario_recibos.Values)
     {
-        if (item.ObtenerEstado() == "cobrado" && item.ObtenerFechaLiquidacion() == "")
+        if (Recibo.ObtenerEstado() == "cobrado" && Recibo.ObtenerFechaLiquidacion() == "")
             {
-            Lista_Recibidos.Add(item);
-            suma_importe += item.Importe();
-            suma_comision += item.Comision();
+            Lista_Recibidos.Add(Recibo);
+            suma_importe += Recibo.Importe();
+            suma_comision += Recibo.Comision();
 
             }
-        else if (item.ObtenerEstado() == "devuelto" && item.ObtenerFechaLiquidacion() == "")
-            Lista_Devueltos.Add(item);
+        else if (Recibo.ObtenerEstado() == "devuelto" && Recibo.ObtenerFechaLiquidacion() == "")
+            Lista_Devueltos.Add(Recibo);
     }
 
     //OBTENEMOS TODOS LOS SINIESTROS PAGADOS PERO SIN FECHA DE LIQUIDACIÓN.
     List<DatosSiniestro> Lista_Siniestros = new List<DatosSiniestro>();
     int suma_siniestros = 0;
-    foreach (DatosSiniestro item in diccionario_siniestros.Values)
+    foreach (DatosSiniestro Siniestro in diccionario_siniestros.Values)
     {
-        if (item.ObtenerFechaPago() != "" && item.ObtenerFechaLiquidacion() == "")
-            Lista_Siniestros.Add(item);
-            suma_siniestros += item.Importe();
+        if (Siniestro.ObtenerFechaPago() != "" && Siniestro.ObtenerFechaLiquidacion() == "")
+            Lista_Siniestros.Add(Siniestro);
+            suma_siniestros += Siniestro.Importe();
     }
 
     //IMPRIMIR
     //Cobrados.
     Console.WriteLine("---------------------------------\nRECIBOS COBRADOS:");
-    foreach (DatosRecibos item in Lista_Recibidos)
+    foreach (DatosRecibos Recibo in Lista_Recibidos)
     {
-        Console.WriteLine($"Nro de poliza:{item.NroPoliza()} Nro de recibo:{item.NroRecibo()} Importe:{item.Importe()} Comision:{item.Comision()}");
+        Console.WriteLine($"Nro de poliza:{Recibo.NroPoliza()} Nro de recibo:{Recibo.NroRecibo()} Importe:{Recibo.Importe()} Comision:{Recibo.Comision()}");
     }
     Console.WriteLine($"TOTAL IMPORTE: {suma_importe}\nTOTAL COMISION:{suma_comision}");
     //devueltos
     Console.WriteLine("---------------------------------\nRECIBOS DEVUELTOS:");
-    foreach (DatosRecibos item in Lista_Devueltos)
+    foreach (DatosRecibos Recibo in Lista_Devueltos)
     {
-        Console.WriteLine($"Nro de poliza:{item.NroPoliza()} Nro de recibo:{item.NroRecibo()} Importe:{item.Importe()} Comision:{item.Comision()}");
+        Console.WriteLine($"Nro de poliza:{Recibo.NroPoliza()} Nro de recibo:{Recibo.NroRecibo()} Importe:{Recibo.Importe()} Comision:{Recibo.Comision()}");
     }
     //siniestros
     Console.WriteLine("---------------------------------\nSINIESTROS:");
-    foreach (DatosSiniestro item in Lista_Siniestros)
+    foreach (DatosSiniestro Siniestro in Lista_Siniestros)
     {
-        Console.WriteLine($"Nro de poliza:{item.NroPoliza()} Nro de siniestro:{item.NroSiniestro()} Importe Abonado:{item.Importe()}");
+        Console.WriteLine($"Nro de poliza:{Siniestro.NroPoliza()} Nro de siniestro:{Siniestro.NroSiniestro()} Importe Abonado:{Siniestro.Importe()}");
     }
     Console.WriteLine($"TOTAL IMPORTE ABONADO: {suma_siniestros}");
     Console.WriteLine("---------------------------------");
@@ -424,6 +424,21 @@ void ImprimirLiquidar()
 
 }
 
+void ListadoRecibos() {
+
+    foreach (Poliza Poliza in diccionario_polizas.Values)
+    {
+        Console.WriteLine($"--------------------------\nNro de Poliza:{Poliza.ObtenerIdetificador()} Tomador: {Poliza.ObtenerTomador().ObtenerNombre()} Fecha:{Poliza.ObtenerFechaEfecto()} Estado:{Poliza.ObtenerEstadoPoliza()}\nRECIBOS:\n");
+        foreach (DatosRecibos recibo in diccionario_recibos.Values)
+        {
+            if (recibo.NroPoliza() == Poliza.ObtenerIdetificador())
+                Console.WriteLine($"Nro de recibo:{recibo.NroRecibo()} Importe:{recibo.Importe()} Comision:{recibo.Comision()} Estado:{recibo.ObtenerEstado()} Fecha de emisión:{recibo.ObtenerFechaEmision()} Fecha De liquidación:{recibo.ObtenerFechaLiquidacion()}");
+        }
+        Console.WriteLine("--------------------------");
+    }
+
+}
+
 //PRINCIPAL
 bool salir = false;
 while (true)//MENÚ
@@ -447,6 +462,7 @@ while (true)//MENÚ
             ImprimirLiquidar();
             break;
         case 5:
+            ListadoRecibos();
             break;
         case 6:
             salir = true;

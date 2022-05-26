@@ -9,5 +9,8 @@
         }
         Persona responsable { get; set; }
         string nif_responsable { get; set; }
+
+        
     }
+
 }
