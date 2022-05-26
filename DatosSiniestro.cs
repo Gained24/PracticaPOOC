@@ -39,5 +39,15 @@
         {
             importe_siniestro = p_importe;
         }
+
+        public int NroPoliza() => nro_poliza;
+
+        public string NroSiniestro() => nro_siniestro;
+
+        public string ObtenerFechaLiquidacion() => fecha_liquidacion;
+
+        public int Importe() => importe_siniestro;
+
+        public string ObtenerFechaPago() => fecha_pago;
     }
 }

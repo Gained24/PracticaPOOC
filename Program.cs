@@ -1,13 +1,4 @@
-﻿using System.Xml.Xsl.Runtime;
-using System.Xml.Serialization;
-using System.Transactions;
-using System.ComponentModel;
-using System.Xml.XPath;
-using System.Net.Http.Headers;
-using System.Data;
-using System.Runtime.CompilerServices;
-using System.Collections.Generic;
-using AplicacionSeguros;
+﻿using AplicacionSeguros;
 
 //ESTRUCTURAS DE CONTROL
 Dictionary<string, Persona> diccionario_personas = new Dictionary<string, Persona>();
@@ -346,14 +337,14 @@ void ImprimirLiquidar()
     int suma_comision = 0;
     foreach (DatosRecibos item in diccionario_recibos)
     {
-        if (item.estado_recibo == "cobrado" && item.fecha_liquidacion == "")
+        if (item.ObtenerEstado() == "cobrado" && item.ObtenerFechaLiquidacion() == "")
             {
             Lista_Recibidos.Add(item);
-            suma_importe += item.importe_seguro;
-            suma_comision += item.comision;
+            suma_importe += item.Importe();
+            suma_comision += item.Comision();
 
             }
-        else if (item.estado_recibo == "devueltos" && item.fecha_liquidacion == "")
+        else if (item.ObtenerEstado() == "devueltos" && item.ObtenerFechaLiquidacion() == "")
             Lista_Devueltos.Add(item);
     }
 
@@ -362,32 +353,32 @@ void ImprimirLiquidar()
     int suma_siniestros = 0;
     foreach (DatosSiniestro item in diccionario_siniestros)
     {
-        if (item.fecha_pago != "" && item.fecha_pago == "")
+        if (item.ObtenerFechaPago() != "" && item.ObtenerFechaLiquidacion() == "")
             Lista_Siniestros.Add(item);
-            suma_siniestros += item.importe_siniestro
+            suma_siniestros += item.Importe();
     }
 
     //IMPRIMIR
     //Cobrados.
-    Console.WriteLine("---------------------------------\nRECIBOS COBRADOS:")
+    Console.WriteLine("---------------------------------\nRECIBOS COBRADOS:");
     foreach (DatosRecibos item in Lista_Recibidos)
     {
-        Console.WriteLine($"Nro de poliza:{item.nro_poliza} Nro de recibo:{item.nro_recibo} Importe:{item.importe_seguro} Comision:{item.comision}");
+        Console.WriteLine($"Nro de poliza:{item.NroPoliza()} Nro de recibo:{item.NroRecibo()} Importe:{item.Importe()} Comision:{item.Comision()}");
     }
-    Console.WriteLine($"TOTAL IMPORTE: {suma_importe}\nTOTAL COMISION:{suma_comision}")
+    Console.WriteLine($"TOTAL IMPORTE: {suma_importe}\nTOTAL COMISION:{suma_comision}");
     //devueltos
-    Console.WriteLine("---------------------------------\nRECIBOS DEVUELTOS:")
+    Console.WriteLine("---------------------------------\nRECIBOS DEVUELTOS:");
     foreach (DatosRecibos item in Lista_Devueltos)
     {
-        Console.WriteLine($"Nro de poliza:{item.nro_poliza} Nro de recibo:{item.nro_recibo} Importe:{item.importe_seguro} Comision:{item.comision}");
+        Console.WriteLine($"Nro de poliza:{item.NroPoliza()} Nro de recibo:{item.NroRecibo()} Importe:{item.Importe()} Comision:{item.Comision()}");
     }
     //siniestros
-    Console.WriteLine("---------------------------------\nSINIESTROS:")
-    foreach ( DatosSiniestro item in Lista_Siniestros)
+    Console.WriteLine("---------------------------------\nSINIESTROS:");
+    foreach (DatosSiniestro item in Lista_Siniestros)
     {
-        Console.WriteLine($"Nro de poliza:{item.nro_poliza} Nro de siniestro:{item.nro_siniestro} Importe Abonado:{item.importe_siniestro}");
+        Console.WriteLine($"Nro de poliza:{item.NroPoliza()} Nro de siniestro:{item.NroSiniestro()} Importe Abonado:{item.Importe()}");
     }
-    Console.WriteLine($"TOTAL SINIESTRO: {suma_siniestros}");
+    Console.WriteLine($"TOTAL IMPORTE ABONADO: {suma_siniestros}");
 
     Console.Write("¿Desea Liquidar todo? SI/NO: ");
     if (Console.ReadLine() == "SI")
@@ -396,15 +387,15 @@ void ImprimirLiquidar()
         string fecha = ConsoleReadLine();
         foreach (DatosRecibos item in Lista_Recibidos)
         {
-            item.fecha_liquidacion = fecha;
+            item.AgregarFechaLiquidacion() = fecha;
         }
         foreach (DatosRecibos item in Lista_Devueltos)
         {
-            item.fecha_liquidacion = fecha;
+            item.AgregarFechaLiquidacion() = fecha;
         }
         foreach (DatosSiniestro item in Lista_Siniestros)
         {
-            item.fecha_liquidacion = fecha;
+            item.AgregarFechaLiquidacion() = fecha;
         }
 
         Console.WriteLine($"TOTAL LIQUIDACIÓN: {suma_importe - suma_comision - suma_siniestros}");
@@ -437,7 +428,7 @@ while (true)//MENÚ
             CrearSiniestro();
             break;
         case 4:
-            ImprimirLiquidar()
+            ImprimirLiquidar();
             break;
         case 5:
             break;

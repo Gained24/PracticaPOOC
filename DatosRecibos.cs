@@ -34,5 +34,17 @@
             fecha_liquidacion = p_fecha_liquidacion;
         }
 
+        public int NroPoliza() => nro_poliza;
+
+        public int NroRecibo() => nro_recibo;
+
+        public int Importe() => importe_seguro;
+
+        public string ObtenerEstado() => estado_seguro;
+
+        public int Comision() => comision;
+
+        public string ObtenerFechaLiquidacion() => fecha_liquidacion;
+
     }
 }

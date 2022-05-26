@@ -13,3 +13,11 @@ C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\refint\Aplicacion
 C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\AplicacionSeguros.pdb
 C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\AplicacionSeguros.genruntimeconfig.cache
 C:\Users\adrif\source\repos\AplicacionSeguros\obj\Debug\net6.0\ref\AplicacionSeguros.dll
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\AplicacionSeguros.csproj.AssemblyReference.cache
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\AplicacionSeguros.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\AplicacionSeguros.AssemblyInfoInputs.cache
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\AplicacionSeguros.AssemblyInfo.cs
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\AplicacionSeguros.csproj.CoreCompileInputs.cache
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\AplicacionSeguros.dll
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\refint\AplicacionSeguros.dll
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\AplicacionSeguros.pdb
