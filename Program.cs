@@ -5,11 +5,11 @@ Dictionary<string, Persona> diccionario_personas = new Dictionary<string, Person
 Dictionary<string, Empresa> diccionario_empresas = new Dictionary<string, Empresa>();
 Dictionary<int, Poliza> diccionario_polizas = new Dictionary<int, Poliza>();
 Dictionary<int, DatosRecibos> diccionario_recibos = new Dictionary<int, DatosRecibos>();
-Dictionary<int, DatosSiniestro> diccionario_siniestros = new Dictionary<int, DatosSiniestro>();
+Dictionary<string, DatosSiniestro> diccionario_siniestros = new Dictionary<string, DatosSiniestro>();
 
 //VARIABLES GLOBALES
-int year_siniestro = 0;
-int numero_siniestro = 0;
+string year_siniestro = "0";
+string numero_siniestro = "0";
 
 //FUNCIÓN PARA CREAR UNA PERSONA Y LA AÑADE AL DICCIONARIO
 Persona CrearPersona()
@@ -157,7 +157,7 @@ void CrearPoliza()
 //CREA O MODIFICA UN RECIBO, SI LO CREA LO AÑADE AL DICCIONARIO SI LO MODIFICA CAMBIA SU ESTADO Y LE AÑADE UNA FECHA DE LIQUIDACIÓN
 void CrearModificarRecibo()
 {
-    Console.WriteLine("\nRECIBOS\n1. CrearReacibo.\n2. ModificarEstadoRecibo.\n3. Salir.\n");
+    Console.WriteLine("\nRECIBOS\n1. CrearReacibo.\n2. ModificarEstadoReciboADevuelto.\n3. ModificarEstadoReciboACobrado\n4. Salir\n");
     Console.Write("-> ");
     int opt = Convert.ToInt32(Console.ReadLine());
 
@@ -213,6 +213,19 @@ void CrearModificarRecibo()
             }
             break;
         case 3:
+            Console.Write("Introduzca el número del recibo: ");
+            int numero_buscar2 = Convert.ToInt32(Console.ReadLine());
+            if (!diccionario_recibos.ContainsKey(numero_buscar2))
+            {
+                Console.WriteLine("El recibo no existe.\n");
+            }
+            else
+            {
+                diccionario_recibos.TryGetValue(numero_buscar2, out DatosRecibos recibos);
+                recibos.CambiarEstadoACobrado();
+            }
+            break;
+        case 4:
             break;
         default:
             Console.WriteLine("\n\nLa opción no es válida. Volviendo...\n\n");
@@ -231,21 +244,22 @@ void CrearSiniestro()
         case 1:
             bool seguir = true;
             Console.Write("Introduzca año para registro del número de siniestro: ");
-            int numero = Convert.ToInt32(Console.ReadLine());
+            string numero = Console.ReadLine();
             if (numero == year_siniestro)
             {
-                numero_siniestro++;
+                numero_siniestro = Convert.ToString(Convert.ToInt32(numero_siniestro) + 1);
             }
-            else if (numero > year_siniestro)
+            else if (Convert.ToInt32(numero) > Convert.ToInt32(year_siniestro))
             {
                 year_siniestro = numero;
-                numero_siniestro = 1;
+                numero_siniestro = "1";
             }
-            else if (numero < year_siniestro)
+            else if (Convert.ToInt32(numero) < Convert.ToInt32(year_siniestro))
             {
                 Console.WriteLine("\n\nEl dato está anticuado. Volviendo...\n\n");
                 seguir = false;
             }
+            Console.WriteLine("El número del siniestro es: " + numero + "-" + numero_siniestro);
             if (seguir)
             {
                 if (!diccionario_siniestros.ContainsKey(numero))
@@ -285,7 +299,7 @@ void CrearSiniestro()
                             Console.Write("Introduzca la matrícula contraria: ");
                             string matricula_contraria = Console.ReadLine();
                             DatosSiniestro siniestro = new DatosSiniestro(numero + "-" + numero_siniestro, numero_poliza, cia, poliza_contraria, false, matricula_contraria);
-                            diccionario_siniestros.Add(numero, siniestro);
+                            diccionario_siniestros.Add(numero + "-" + numero_siniestro, siniestro);
                         }
                         else
                         {
@@ -306,7 +320,7 @@ void CrearSiniestro()
             break;
         case 2:
             Console.Write("Introduzca el número del siniestro: ");
-            int numero_buscar = Convert.ToInt32(Console.ReadLine());
+            string numero_buscar = Console.ReadLine();
             if (!diccionario_siniestros.ContainsKey(numero_buscar))
             {
                 Console.WriteLine("El siniestro no existe.\n");
@@ -316,7 +330,9 @@ void CrearSiniestro()
                 diccionario_siniestros.TryGetValue(numero_buscar, out DatosSiniestro siniestro);
                 Console.Write("Introduzca fecha de pago del siniestro: ");
                 string fecha_pago = Console.ReadLine();
-                siniestro.AgregarFechaPago(fecha_pago);
+                Console.Write("Introduzca importe del siniestro: ");
+                int importe = Convert.ToInt32(Console.ReadLine());
+                siniestro.AgregarImporteSiniestro(importe);
             }
             break;
         case 3:
@@ -344,7 +360,7 @@ void ImprimirLiquidar()
             suma_comision += item.Comision();
 
             }
-        else if (item.ObtenerEstado() == "devueltos" && item.ObtenerFechaLiquidacion() == "")
+        else if (item.ObtenerEstado() == "devuelto" && item.ObtenerFechaLiquidacion() == "")
             Lista_Devueltos.Add(item);
     }
 

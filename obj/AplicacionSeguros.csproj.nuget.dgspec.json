@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ada\\Desktop\\proyecto\\PracticaPOOC\\AplicacionSeguros.csproj": {}
+    "C:\\Users\\adrif\\source\\repos\\AplicacionSeguros\\AplicacionSeguros.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ada\\Desktop\\proyecto\\PracticaPOOC\\AplicacionSeguros.csproj": {
+    "C:\\Users\\adrif\\source\\repos\\AplicacionSeguros\\AplicacionSeguros.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ada\\Desktop\\proyecto\\PracticaPOOC\\AplicacionSeguros.csproj",
+        "projectUniqueName": "C:\\Users\\adrif\\source\\repos\\AplicacionSeguros\\AplicacionSeguros.csproj",
         "projectName": "AplicacionSeguros",
-        "projectPath": "C:\\Users\\ada\\Desktop\\proyecto\\PracticaPOOC\\AplicacionSeguros.csproj",
-        "packagesPath": "C:\\Users\\ada\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ada\\Desktop\\proyecto\\PracticaPOOC\\obj\\",
+        "projectPath": "C:\\Users\\adrif\\source\\repos\\AplicacionSeguros\\AplicacionSeguros.csproj",
+        "packagesPath": "C:\\Users\\adrif\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\adrif\\source\\repos\\AplicacionSeguros\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ada\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\adrif\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
