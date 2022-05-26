@@ -335,7 +335,7 @@ void ImprimirLiquidar()
     List<DatosRecibos> Lista_Devueltos = new List<DatosRecibos>();
     int suma_importe = 0;
     int suma_comision = 0;
-    foreach (DatosRecibos item in diccionario_recibos)
+    foreach (DatosRecibos item in diccionario_recibos.Values)
     {
         if (item.ObtenerEstado() == "cobrado" && item.ObtenerFechaLiquidacion() == "")
             {
@@ -351,7 +351,7 @@ void ImprimirLiquidar()
     //OBTENEMOS TODOS LOS SINIESTROS PAGADOS PERO SIN FECHA DE LIQUIDACIÓN.
     List<DatosSiniestro> Lista_Siniestros = new List<DatosSiniestro>();
     int suma_siniestros = 0;
-    foreach (DatosSiniestro item in diccionario_siniestros)
+    foreach (DatosSiniestro item in diccionario_siniestros.Values)
     {
         if (item.ObtenerFechaPago() != "" && item.ObtenerFechaLiquidacion() == "")
             Lista_Siniestros.Add(item);
@@ -379,23 +379,23 @@ void ImprimirLiquidar()
         Console.WriteLine($"Nro de poliza:{item.NroPoliza()} Nro de siniestro:{item.NroSiniestro()} Importe Abonado:{item.Importe()}");
     }
     Console.WriteLine($"TOTAL IMPORTE ABONADO: {suma_siniestros}");
-
+    Console.WriteLine("---------------------------------");
     Console.Write("¿Desea Liquidar todo? SI/NO: ");
-    if (Console.ReadLine() == "SI")
+    if (Console.ReadLine().ToUpper() == "SI")
     {
         Console.Write("Introduce la fecha de liquidacion: ");
-        string fecha = ConsoleReadLine();
+        string fecha = Console.ReadLine();
         foreach (DatosRecibos item in Lista_Recibidos)
         {
-            item.AgregarFechaLiquidacion() = fecha;
+            item.AgregarFechaLiquidacion(fecha);
         }
         foreach (DatosRecibos item in Lista_Devueltos)
         {
-            item.AgregarFechaLiquidacion() = fecha;
+            item.AgregarFechaLiquidacion(fecha);
         }
         foreach (DatosSiniestro item in Lista_Siniestros)
         {
-            item.AgregarFechaLiquidacion() = fecha;
+            item.AgregarFechaLiquidacion(fecha);
         }
 
         Console.WriteLine($"TOTAL LIQUIDACIÓN: {suma_importe - suma_comision - suma_siniestros}");

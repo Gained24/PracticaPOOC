@@ -21,3 +21,10 @@ C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\AplicacionSeguros.cs
 C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\AplicacionSeguros.dll
 C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\refint\AplicacionSeguros.dll
 C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\AplicacionSeguros.pdb
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\bin\Debug\net6.0\AplicacionSeguros.exe
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\bin\Debug\net6.0\AplicacionSeguros.deps.json
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\bin\Debug\net6.0\AplicacionSeguros.runtimeconfig.json
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\bin\Debug\net6.0\AplicacionSeguros.dll
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\bin\Debug\net6.0\AplicacionSeguros.pdb
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\AplicacionSeguros.genruntimeconfig.cache
+C:\Users\ada\Desktop\proyecto\PracticaPOOC\obj\Debug\net6.0\ref\AplicacionSeguros.dll

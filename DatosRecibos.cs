@@ -40,7 +40,7 @@
 
         public int Importe() => importe_seguro;
 
-        public string ObtenerEstado() => estado_seguro;
+        public string ObtenerEstado() => estado_recibo;
 
         public int Comision() => comision;
 
